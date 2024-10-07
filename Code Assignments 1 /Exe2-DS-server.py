@@ -24,6 +24,9 @@ def main():
             message = conn.recv(1024).decode('utf-8')
             print(f"Message received: {message}")
 
+            reply_message = "Message received successfully!"
+            conn.sendall(reply_message.encode('utf-8'))
+
         # Close the connection to the client
         print("Closing connection")
 

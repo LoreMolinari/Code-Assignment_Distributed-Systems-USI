@@ -22,7 +22,10 @@ def clientConnection(conn, addr):
     conn.close()
 
 def main():
-    port = 8080
+    try:
+        port = int(argv[1])
+    except:
+        port = 8080
 
     print(f"Server on port: {port}")
 
