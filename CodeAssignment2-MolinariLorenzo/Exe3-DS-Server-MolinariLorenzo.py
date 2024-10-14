@@ -1,18 +1,20 @@
 import socket
 from sys import argv
-from threading import Thread
+from threading import Thread, Lock
 import message_exe3_pb2
 
 n_users = 0
 next_id = 1
+lock = Lock()
 
 def handle_client(conn, addr):
     global n_users, next_id
     with conn:
         print(f"Connected by {addr}")
-        n_users += 1
-        client_id = next_id
-        next_id += 1
+        with lock:
+            n_users=n_users+1
+            client_id = next_id
+            next_id=next_id+1
 
         handshake = message_exe3_pb2.Handshake()
         handshake.id = client_id
@@ -22,7 +24,8 @@ def handle_client(conn, addr):
             conn.sendall(handshake.SerializeToString())
         except Exception as e:
             print(f"Error handshake: {e}")
-            n_users -= 1
+            with lock:
+                n_users=n_users-1
             return
 
         try:
@@ -40,7 +43,8 @@ def handle_client(conn, addr):
                 if message.message == "end":
                     break
         finally:
-            n_users -= 1
+            with lock:
+                n_users=n_users-1
         print(f"Closing connection, {addr}")
 
 def operator():
@@ -48,7 +52,8 @@ def operator():
     while True:
         command = input()
         if command == "num_users":
-            print(f"Number of users: {n_users}")
+            with lock:
+                print(f"Number of users: {n_users}")
         elif command == "quit":
             print("Shut down operator")
             break

@@ -24,13 +24,13 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12message_exe2.proto\"@\n\x0b\x43hatMessage\x12\x0e\n\x06sender\x18\x01 \x01(\x03\x12\x10\n\x08receiver\x18\x02 \x01(\x03\x12\x0f\n\x07message\x18\x03 \x01(\tb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12message_exe2.proto\"<\n\x07Message\x12\x0e\n\x06sender\x18\x01 \x01(\x03\x12\x10\n\x08receiver\x18\x02 \x01(\x03\x12\x0f\n\x07message\x18\x03 \x01(\tb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'message_exe2_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_CHATMESSAGE']._serialized_start=22
-  _globals['_CHATMESSAGE']._serialized_end=86
+  _globals['_MESSAGE']._serialized_start=22
+  _globals['_MESSAGE']._serialized_end=82
 # @@protoc_insertion_point(module_scope)

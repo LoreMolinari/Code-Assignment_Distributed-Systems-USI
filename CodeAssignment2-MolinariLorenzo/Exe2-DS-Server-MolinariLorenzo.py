@@ -1,23 +1,24 @@
 import socket
 from sys import argv
-from threading import Thread
+from threading import Thread, Lock
 import message_exe2_pb2  # Import file protoc
 
-# users connected
 n_users = 0
+n_users_lock = Lock()
 
 def handle_client(conn, addr):
     global n_users
     with conn:
         print(f"Connected by {addr}")
-        n_users += 1
+        with n_users_lock:
+            n_users=n_users+1
         try:
             while True:
                 data = conn.recv(1024)
                 if not data:
                     break
 
-                message = message_pb2.ChatMessage()
+                message = message_exe2_pb2.Message()
                 message.ParseFromString(data)
                 print(f"Message from {message.sender} to {message.receiver}: {message.message}")
 
@@ -26,7 +27,8 @@ def handle_client(conn, addr):
                 if message.message == "end":
                     break
         finally:
-            n_users -= 1
+            with n_users_lock:
+                n_users=n_users-1
         print(f"Closing connection to {addr}")
 
 def operator():
@@ -34,7 +36,8 @@ def operator():
     while True:
         command = input()
         if command == "num_users":
-            print(f"Users: {n_users}")
+            with n_users_lock:
+                print(f"Users: {n_users}")
         elif command == "quit":
             print("Shut down operator")
             break

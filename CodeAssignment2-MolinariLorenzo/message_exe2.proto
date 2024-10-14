@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-message ChatMessage {
+message Message {
     int64 sender = 1;
     int64 receiver = 2;
     string message = 3;

@@ -27,7 +27,7 @@ def main():
                 receiver_id = int(input("Enter receiver: "))
                 message_content = input("Enter message: ")
 
-                message = message_pb2.ChatMessage()
+                message = message_exe2_pb2.Message()
                 message.sender = sender_id
                 message.receiver = receiver_id
                 message.message = message_content
@@ -39,7 +39,7 @@ def main():
                     break
 
                 data = s.recv(1024)
-                response_message = message_pb2.ChatMessage()
+                response_message = message_exe2_pb2.Message()
                 response_message.ParseFromString(data)
                 print(f"Reply: {response_message.message}")
 

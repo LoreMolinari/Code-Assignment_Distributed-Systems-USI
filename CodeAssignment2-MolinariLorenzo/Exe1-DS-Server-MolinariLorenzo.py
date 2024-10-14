@@ -1,15 +1,17 @@
 import socket
 from sys import argv
-from threading import Thread
+from threading import Thread, Lock
 
-# users connected
+#users connected
 n_users = 0
+user_lock = Lock()
 
 def handle_client(conn, addr):
     global n_users
     with conn:
         print(f"Connected by {addr}")
-        n_users=n_users+1
+        with user_lock:
+            n_users=n_users+1
         try:
             while True:
                 data = conn.recv(1024)
@@ -18,15 +20,17 @@ def handle_client(conn, addr):
                     break
                 conn.sendall(data)
         finally:
-            n_users -= 1
-        print(f"Closing connection to {addr}")
+            with user_lock:
+                n_users=n_users-1
+        print(f"Closing connection {addr}")
 
 def operator():
     global n_users
     while True:
         command = input()
         if command == "num_users":
-            print(f"Number of users: {n_users}")
+            with user_lock:
+                print(f"Number of users: {n_users}")
         elif command == "quit":
             print("Shut down operator")
             break
