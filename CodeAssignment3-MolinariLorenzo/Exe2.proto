@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package cs2;
+
+message Message {
+  int64 fr = 1;
+  int64 to = 2;
+  string msg = 3;
+}
+
+message Handshake {
+  int64 ID = 1;
+  bool error = 2;
+  bool newID = 3;
+  bool oldID = 4;
+}
